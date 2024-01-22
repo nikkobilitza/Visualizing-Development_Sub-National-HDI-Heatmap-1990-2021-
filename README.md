@@ -1,2 +1,4 @@
-# Test-tutorial
- Test
+This project aimed to create an insightful and visually engaging analysis of the Human Development Index (HDI) across subnational regions in four major countries: China, India, Mexico, and Brazil. The focus was on tracking and visualizing the changes in HDI over time, providing a dynamic perspective on socio-economic development at a regional level. By focusing on subnational regions, this analysis provides a comprehensive view of the socio-economic landscape, identifying pockets of both advancement and deprivation.
+
+Data Source:
+https://globaldatalab.org/shdi/table/shdi/CHN/?levels=4&interpolation=0&extrapolation=0
