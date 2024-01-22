@@ -37,18 +37,20 @@ china_data_long$Region <- factor(china_data_long$Region, levels = order)
 custom_colors <- c("Low" = "darkred", "Medium" = "orange", "High" = "deepskyblue", "Very High" = "darkblue")
 
 
-ggplot(china_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="white", size=.5, alpha=0.9) +  
-  labs( title = "HDI Variation Across Chinese Provinces (1990-2021)", x = "Year", y = "Province", fill = "HDI Level") +
+CHINA<-ggplot(china_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
+  geom_tile(colour="#fdf6e3", size=1, alpha=0.8) +  
+  labs(title = "HDI Variation Across Chinese Provinces (1990-2021)", x = "Year", y = "Province", fill = "HDI Level", ) +
   scale_y_discrete(expand=c(0, 0)) +  
   scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) +  
   scale_fill_manual(values = custom_colors) +
-   theme_grey(base_size=9) +  
+  theme_solarized(base_size=9) +  
   theme(
-    legend.text=element_text(face="bold"), 
-    axis.ticks=element_line(size=.3), 
-    plot.background=element_blank(),  
-    panel.border=element_blank() 
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
+    axis.ticks=element_line(size=.3),  
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
   )
 
 #### Mexico ####
@@ -82,17 +84,19 @@ mexico_data_long$Region <- factor(mexico_data_long$Region, levels = order)
 # Plot
 
 ggplot(mexico_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="white", size=.5, alpha=0.9) + 
+  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) + 
   labs( title = "HDI Variation Across Mexican States (1990-2021)", x = "Year", y = "States", fill = "HDI Level") +
   scale_y_discrete(expand=c(0, 0)) + 
   scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) +
   scale_fill_manual(values = custom_colors) +
-  theme_grey(base_size=9) +  
+  theme_solarized(base_size=9) +  
   theme(
-    legend.text=element_text(face="bold"),  
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
     axis.ticks=element_line(size=.3),  
-    plot.background=element_blank(),
-    panel.border=element_blank() 
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
   )
 
 #### India ####
@@ -125,17 +129,19 @@ India_data_long$Region <- factor(India_data_long$Region, levels = order)
 # Plot
 
 ggplot(India_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="white", size=.5, alpha=0.9) +  
+  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) +  
   labs( title = "HDI Variation Across Indian States (1990-2021)", x = "Year", y = "State", fill = "HDI Level") +
   scale_y_discrete(expand=c(0, 0)) +  
   scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) +  
   scale_fill_manual(values = custom_colors) +
-  theme_grey(base_size=9) +  
+  theme_solarized(base_size=9) +  
   theme(
-    legend.text=element_text(face="bold"),  
-    axis.ticks=element_line(size=.3), 
-    plot.background=element_blank(),  
-    panel.border=element_blank()
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
+    axis.ticks=element_line(size=.3),  
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
   )
 
 #### Brazil ####
@@ -168,17 +174,19 @@ Brazil_data_long$Region <- factor(Brazil_data_long$Region, levels = order)
 # Plot
 
 ggplot(Brazil_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="white", size=.5, alpha=0.9) +  
+  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) +  
   labs( title = "HDI Variation Across Brazilian States (1990-2021)", x = "Year", y = "States", fill = "HDI Level") +
   scale_y_discrete(expand=c(0, 0)) + 
   scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) + 
   scale_fill_manual(values = custom_colors) +
-  theme_grey(base_size=9) +
+  theme_solarized(base_size=9) +  
   theme(
-    legend.text=element_text(face="bold"),
-    axis.ticks=element_line(size=.3),
-    plot.background=element_blank(), 
-    panel.border=element_blank()
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
+    axis.ticks=element_line(size=.3),  
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
   )
 #### Indonesia ####
 # Filter into a df with only data from Indonesia
@@ -210,23 +218,18 @@ Indonesia_data_long$Region <- factor(Indonesia_data_long$Region, levels = order)
 # Plot
 
 ggplot(Indonesia_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="white", size=.5, alpha=0.9) +  
+  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) +  
   labs( title = "HDI Variation Across Indonesian Provinces (1990-2021)", x = "Year", y = "Province", fill = "HDI Level") +
   scale_y_discrete(expand=c(0, 0)) + 
   scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) + 
   scale_fill_manual(values = custom_colors) +
-  theme_grey(base_size=9) +
+  scale_fill_manual(values = custom_colors) +
+  theme_solarized(base_size=9) +  
   theme(
-    legend.text=element_text(face="bold"),
-    axis.ticks=element_line(size=.3),
-    plot.background=element_blank(), 
-    panel.border=element_blank()
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
+    axis.ticks=element_line(size=.3),  
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
   )
-
-
-
-
-
-
-
-
