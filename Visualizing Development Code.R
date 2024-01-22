@@ -180,6 +180,53 @@ ggplot(Brazil_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
     plot.background=element_blank(), 
     panel.border=element_blank()
   )
+#### Indonesia ####
+# Filter into a df with only data from Indonesia
+Indonesia_data <- filter(Subnational_HDI_data, Country == "Indonesia" & Region != "Total")
+head(Indonesia_data)
+
+# Make a long-form table
+Indonesia_data_long <- pivot_longer(Indonesia_data, cols = `1990`:`2021`, names_to = "Year", values_to = "Value")
+
+# Turn year into a factor
+Indonesia_data_long$Year <- factor(Indonesia_data_long$Year)
+
+# Add HDI Categories 
+Indonesia_data_long <- Indonesia_data_long %>%
+  mutate(HDI_Category = cut(
+    Value,
+    breaks = c(-Inf, 0.549, 0.699, 0.799, Inf),
+    labels = c("Low", "Medium", "High", "Very High")
+  ))
+
+# Reorganize by the HDI of the province in 2021
+order <- Indonesia_data_long %>%
+  filter(Year == "1990") %>%
+  arrange(Value) %>%
+  pull(Region)
+
+Indonesia_data_long$Region <- factor(Indonesia_data_long$Region, levels = order)
+
+# Plot
+
+ggplot(Indonesia_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
+  geom_tile(colour="white", size=.5, alpha=0.9) +  
+  labs( title = "HDI Variation Across Indonesian Provinces (1990-2021)", x = "Year", y = "Province", fill = "HDI Level") +
+  scale_y_discrete(expand=c(0, 0)) + 
+  scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) + 
+  scale_fill_manual(values = custom_colors) +
+  theme_grey(base_size=9) +
+  theme(
+    legend.text=element_text(face="bold"),
+    axis.ticks=element_line(size=.3),
+    plot.background=element_blank(), 
+    panel.border=element_blank()
+  )
+
+
+
+
+
 
 
 
