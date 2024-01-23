@@ -1,5 +1,7 @@
 #### Setting Up Environment ####
 library(tidyverse)
+library(ggthemes)
+
 #Load data
 Subnational_HDI_data <- read_csv("GDL-Subnational-HDI-data.csv")
 head(Subnational_HDI_data)
@@ -37,7 +39,7 @@ china_data_long$Region <- factor(china_data_long$Region, levels = order)
 custom_colors <- c("Low" = "darkred", "Medium" = "orange", "High" = "deepskyblue", "Very High" = "darkblue")
 
 
-CHINA<-ggplot(china_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
+ggplot(china_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
   geom_tile(colour="#fdf6e3", size=1, alpha=0.8) +  
   labs(title = "HDI Variation Across Chinese Provinces (1990-2021)", x = "Year", y = "Province", fill = "HDI Level", ) +
   scale_y_discrete(expand=c(0, 0)) +  
@@ -53,6 +55,50 @@ CHINA<-ggplot(china_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
     legend.title=element_text(face="bold", color="black"),
   )
 
+#### Brazil ####
+# Filter into a df with only data from Brazil
+Brazil_data <- filter(Subnational_HDI_data, Country == "Brazil" & Region != "Total")
+head(Brazil_data)
+
+# Make a long-form table
+Brazil_data_long <- pivot_longer(Brazil_data, cols = `1990`:`2021`, names_to = "Year", values_to = "Value")
+
+# Turn year into a factor
+Brazil_data_long$Year <- factor(Brazil_data_long$Year)
+
+# Add HDI Categories 
+Brazil_data_long <- Brazil_data_long %>%
+  mutate(HDI_Category = cut(
+    Value,
+    breaks = c(-Inf, 0.549, 0.699, 0.799, Inf),
+    labels = c("Low", "Medium", "High", "Very High")
+  ))
+
+# Reorganize by the HDI of the province in 2021
+order <- Brazil_data_long %>%
+  filter(Year == "1990") %>%
+  arrange(Value) %>%
+  pull(Region)
+
+Brazil_data_long$Region <- factor(Brazil_data_long$Region, levels = order)
+
+# Plot
+
+ggplot(Brazil_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
+  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) +  
+  labs( title = "HDI Variation Across Brazilian States (1990-2021)", x = "Year", y = "States", fill = "HDI Level") +
+  scale_y_discrete(expand=c(0, 0)) + 
+  scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) + 
+  scale_fill_manual(values = custom_colors) +
+  theme_solarized(base_size=9) +  
+  theme(
+    plot.title = element_text(colour = "black",size=10),
+    legend.text=element_text(face="bold", color="black"), 
+    axis.ticks=element_line(size=.3),  
+    panel.border=element_blank(),
+    axis.title=element_text(face="bold", color="black"),
+    legend.title=element_text(face="bold", color="black"),
+  )
 #### Mexico ####
 
 # Filter into a df with only data from Mexico
@@ -144,50 +190,6 @@ ggplot(India_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
     legend.title=element_text(face="bold", color="black"),
   )
 
-#### Brazil ####
-# Filter into a df with only data from Brazil
-Brazil_data <- filter(Subnational_HDI_data, Country == "Brazil" & Region != "Total")
-head(Brazil_data)
-
-# Make a long-form table
-Brazil_data_long <- pivot_longer(Brazil_data, cols = `1990`:`2021`, names_to = "Year", values_to = "Value")
-
-# Turn year into a factor
-Brazil_data_long$Year <- factor(Brazil_data_long$Year)
-
-# Add HDI Categories 
-Brazil_data_long <- Brazil_data_long %>%
-  mutate(HDI_Category = cut(
-    Value,
-    breaks = c(-Inf, 0.549, 0.699, 0.799, Inf),
-    labels = c("Low", "Medium", "High", "Very High")
-  ))
-
-# Reorganize by the HDI of the province in 2021
-order <- Brazil_data_long %>%
-  filter(Year == "1990") %>%
-  arrange(Value) %>%
-  pull(Region)
-
-Brazil_data_long$Region <- factor(Brazil_data_long$Region, levels = order)
-
-# Plot
-
-ggplot(Brazil_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
-  geom_tile(colour="#fdf6e3", size=.5, alpha=0.9) +  
-  labs( title = "HDI Variation Across Brazilian States (1990-2021)", x = "Year", y = "States", fill = "HDI Level") +
-  scale_y_discrete(expand=c(0, 0)) + 
-  scale_x_discrete(expand=c(0, 0), breaks=c("1990", "1995", "2000", "2005", "2010", "2015", "2020")) + 
-  scale_fill_manual(values = custom_colors) +
-  theme_solarized(base_size=9) +  
-  theme(
-    plot.title = element_text(colour = "black",size=10),
-    legend.text=element_text(face="bold", color="black"), 
-    axis.ticks=element_line(size=.3),  
-    panel.border=element_blank(),
-    axis.title=element_text(face="bold", color="black"),
-    legend.title=element_text(face="bold", color="black"),
-  )
 #### Indonesia ####
 # Filter into a df with only data from Indonesia
 Indonesia_data <- filter(Subnational_HDI_data, Country == "Indonesia" & Region != "Total")
@@ -233,3 +235,4 @@ ggplot(Indonesia_data_long, aes(x=Year, y=Region, fill=HDI_Category)) +
     axis.title=element_text(face="bold", color="black"),
     legend.title=element_text(face="bold", color="black"),
   )
+
